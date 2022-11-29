@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>angry bird</title>
+  <style>
+@import "compass";
+
+html, body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-color: #00DBDE;
+	@include filter-gradient(#00DBDE, #0099B2, horizontal);
+	@include background-image(radial-gradient(center, ellipse cover,  #00DBDE 10%,#0099B2 100%));
+	
+	.container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		max-width: 600px;
+		min-width: 450px;
+		padding: 0;
+		margin: 0 auto;
+		height: 100%;
+		position: relative;
+
+		:before, :after {
+			position: absolute;
+			content: "";
+		}
+	}
+
+	.title {
+		margin: 0 auto;
+		display: block;
+		position: absolute;
+		top: 5%;
+		left: 50%;
+		transform: translate(-50%, 0);
+	}
+}
+
+.birds-container {
+	margin-top: 60px;
+	height: 100px;
+	width: 500px;
+	
+	.red, .minion, .black {
+		position: absolute;
+
+		* {
+			position: absolute;
+		}
+	}
+}
+
+.red {
+	left: calc(50% - (120px / 2));
+	height: 110px;
+	width: 120px;
+	
+	.tail {
+		top: 40%;
+		left: -18px;
+		height: 10px;
+		width: 30px;
+		background: #000000;
+		@include transform(rotate(15deg));
+		
+		&:before,
+		&:after {
+			left: 6px;
+			height: 70%;
+			width: 100%;
+			background: #000000;
+		}
+		
+		&:before {
+			top: -4px;
+			@include transform(rotate(25deg));
+		}
+		
+		&:after {
+			top: 8px;
+			@include transform(rotate(-20deg));
+		}
+	}
+	
+	.head {
+		height: 110px;
+		width: 120px;
+		background: #DC002D;
+		border: 2px solid #6A0306;
+		@include border-radius( 45% 55% 45% 45% / 55% 60% 40% 45% );
+		@include box-shadow(inset -10px 8px 15px -5px rgba(#EDB290, 0.7));
+		overflow: hidden;
+	
+		&:before /* shadow */ {
+			height: 100%;
+			width: 100%;
+			@include box-shadow(inset 5px -5px 3px 2px rgba(#000000, 0.2));
+			@include border-radius(inherit);
+			z-index: 50;
+		}
+	
+		&:after /*beard?breast?*/ {
+			top: 65%;
+			left: 25%;
+			height: 100%;
+			width: 100%;
+			background: #E3C4AB;
+			@include border-radius(inherit);
+		}
+	}
+
+	.eye {
+		top: 34%;
+		height: 26px;
+		width: 24px;
+		background: #FFFFFF;
+		border: 2px solid #6A0306;
+		@include border-radius(50%);
+		@include box-shadow(-2px 2px 2px 3px rgba(#000000, 0.2));
+
+		.eyebrow /*eyebrows*/ {
+			top: -4px;
+			width: 130%;
+			height: 12px;
+			background: #000000;
+		}
+
+		.pupil {
+			top: 28%;
+			left: 44%;
+			height: 10px;
+			width: 10px;
+			background: #000000;
+			@include border-radius(50%);
+
+			&:after /*white*/ {
+				top: 32%;
+				left: 54%;
+				height: 20%;
+				width: 20%;
+				background: #FFFFFF;
+				@include border-radius(inherit);
+			}
+		}
+
+		&.left {
+			left: 47%;
+			z-index: 10;
+
+			.eyebrow {
+				width: 140%;
+				left: -35%;
+				@include transform(skewY(12deg));
+			}
+		}
+
+		&.right {
+			right: 10%;
+			z-index: 8;
+			@include box-shadow(2px 2px 4px 3px rgba(#000000, 0.1));
+
+			.eyebrow {
+				@include transform(skewY(-15deg));
+			}
+
+			.pupil {
+				left: 20%;
+			}
+		}
+	}
+	
+	.mouth {
+		top: 60px;
+		left: 70px;
+		height: 28px;
+		width: 28px;
+		background: #FCA90D;
+		z-index: 60;
+		border: 1px solid #000000;;
+		@include border-radius( 20% 0 20% 10% );
+		@include transform(rotate(34deg) skew(-15deg, 0deg));
+		@include box-shadow(
+			inset 0 5px 5px 0 rgba(#FFFFFF, 0.3),
+			inset 2px -4px 10px 0px rgba(#000000, 0.4)
+		);
+		
+		&:before {
+			top: -14px;
+			left: -14px;
+			width: 30px;
+			height: 40px;
+			border: 2px solid #000000;
+			border-color: transparent #000000 transparent transparent;
+			@include border-radius( 0 0 40% 0 );
+			@include transform(rotate(42deg));
+		}
+	}
+	
+	.hair {
+		top: -18px;
+		left: 28px;
+		height: 30px;
+		width: 12px;
+		background: #DC002D;
+		@include border-radius(50%);
+		@include transform(rotate(-70deg));
+		border: 2px solid #6A0306;
+		border-bottom-color: transparent;
+		
+		&:before {
+			top: 10px;
+			left: 8px;
+			height: 100%;
+			width: 100%;
+			background: #DC002D;
+			@include border-radius(inherit);
+			@include transform(rotate(20deg));
+			border: 2px solid #6A0306;
+			border-bottom-color: transparent;
+		}
+		
+		&:after {
+			top: 23px;
+			left: -15px;
+			@include transform(rotate(70deg));
+			height: 20px;
+			width: 30px;
+			background: #DC002D;
+			@include border-radius(50%);
+		}
+	}
+}
+
+$minion-color: #50A032;
+$minion-outer-border: #2B4D13;
+
+.minion {
+	right: 70%;
+	margin-top: 10px;
+	height: 100px;
+	width: 120px;
+	background: $minion-color;
+	border: 2px solid $minion-outer-border;
+	@include border-radius( 50% 50% 50% 50% / 55% 60% 40% 45% );
+	@include box-shadow(inset -15px 10px 15px -5px rgba(#FFFFFF, 0.3));
+	
+	&:before /* shadow */ {
+		height: 100%;
+		width: 100%;
+		@include box-shadow(inset 5px -5px 8px 2px rgba(#000000, 0.2));
+		@include border-radius(inherit);
+		z-index: 50;
+	}
+	
+	.ear {
+		height: 20px;
+		width: 18px;
+		background: $minion-color;
+		border: 2px solid $minion-outer-border;
+		border-bottom-color: transparent;
+		@include border-radius(45% 45% 45% 45% / 55% 45% 55% 45% );
+		
+		&:before {
+			top: 32%;
+			left: 24%;
+			height: 44%;
+			width: 44%;
+			background: #2F6317;
+			border: 1px solid darken(#2F6317, 10%);
+			@include border-radius(inherit);
+		}
+		
+		&.left {
+			left: 5px;
+			top: -5px;
+			@include transform(rotate(-40deg));
+		}
+		
+		&.right {
+			background: lighten($minion-color, 6%);
+			top: -20px;
+			left: 45px;
+			@include transform(rotate(-6deg));
+		}
+	}
+	
+	.eye {
+		top: 36px;
+		height: 28px;
+		width: 28px;
+		background: #FFFFFF;
+		border: 1px solid #193C09;
+		@include border-radius(50%);
+		@include box-shadow( -1px 5px 2px 1px rgba(#448424, 0.6),
+			inset 3px -6px 5px -2px rgba(#000000, 0.3));
+		
+		&:after /* eyeball */ {
+			height: 8px;
+			width: 8px;
+			background: #000000;
+			@include border-radius(50%);
+		}
+		
+		&:before /* eyebrow */ {
+			height: 10px;
+			width: 14px;
+			border-top: 5px solid #0F2D00;
+			@include border-radius(50% 50% 0 0 / 40% 40% 0 0);
+		}
+		
+		&.left {
+			left: 8px;
+			
+			&:after {
+				top: 42%;
+				left: 6px;
+			}
+			
+			&:before {
+				top: -14px;
+				left: 3px;
+				@include transform(rotate(-20deg));
+			}
+		}
+		
+		&.right {
+			right: 3px;
+			
+			&:after {
+				top: 36%;
+				right: 5px;
+			}
+			
+			&:before {
+				top: -14px;
+				right: 6px;
+				@include transform(rotate(25deg));
+			}
+		}
+	}
+	
+	.nose {
+		left: 42px;
+		top: 30px;
+		height: 40px;
+		width: 46px;
+		background: #82B923;
+		border: 1px solid #1D3C07;
+		@include border-radius( 50% 50% 45% 45% / 55% 55% 45% 45% );
+		@include box-shadow(-1px 5px 2px 1px rgba(#448424, 0.6));
+		
+		&:before, &:after {
+			top: 14px;
+			height: 16px;
+			width: 12px;
+			background: #0F2D00;
+			@include border-radius(50%);
+			@include box-shadow(inset -3px -2px 1px -1px rgba(#2D6B1F, 1));
+		}
+		
+		&:before {
+			height: 18px;
+			left: 8px;
+		}
+		
+		&:after {
+			right: 8px;
+		}
+	}
+}
+
+.black {
+	left: 70%;
+	height: 120px;
+	width: 120px;
+	
+	.head {
+		margin-top: -10px;
+		height: 130px;
+		width: 130px;
+		background: #0F1110;
+		@include border-radius( 45% 55% 45% 55% / 55% 50% 50% 45% );
+		@include box-shadow(inset -10px 5px 15px -5px rgba(#FFFFFF, 0.3));
+		overflow: hidden;
+	
+		&:before /* shadow */ {
+			height: 100%;
+			width: 100%;
+			@include box-shadow(inset 5px -5px 3px 2px rgba(#000000, 0.2));
+			@include border-radius(inherit);
+			z-index: 50;
+		}
+	
+		&:after /*beard?breast?*/ {
+			top: 76%;
+			left: 12%;
+			height: 100%;
+			width: 100%;
+			background: #474642;
+			@include border-radius(inherit);
+		}
+	}
+		
+	.eye {
+		top: 18px;
+		height: 20px;
+		width: 20px;
+		background: #FFFFFF;
+		border: 1px solid #000000;
+		@include border-radius(50%);
+		opacity: 1;
+		z-index: 50;
+		
+		.pupil {
+			top: calc(50% - 3px);
+			height: 10px;
+			width: 10px;
+			background: #000000;
+			@include border-radius(50%);
+		
+			&:before /*pupil*/ {
+				top: 50%;
+				left: 50%;
+				height: 2px;
+				width: 2px;
+				background: #FFFFFF;
+				@include border-radius(50%);
+			}
+		}
+		
+		.eyebrow {
+			top: -6px;
+			width: 50px;
+			height: 8px;
+			background: #CB3C1A;
+		}
+		
+		&.left {
+			left: 30%;
+			@include box-shadow( -4px 4px 0 6px #4E4E4E);
+			
+			.pupil {
+				right: 2px;
+			}
+			
+			.eyebrow {
+				right: -5px;
+				@include transform(rotate(10deg));
+			}
+		}
+		
+		&.right {
+			top: 16px;
+			right: 10%;
+			@include box-shadow( 4px 4px 0 6px #4E4E4E);
+			
+			.pupil {
+				left: 2px;
+			}
+			
+			.eyebrow {
+				left: -5px;
+				@include transform(rotate(-10deg));
+			}
+		}
+	}
+	
+	.mouth {
+		top: 28px;
+		left: 64px;
+		height: 36px;
+		width: 36px;
+		background: #FCA90D;
+		z-index: 60;
+		border: 1px solid #000000;;
+		@include border-radius( 80% 0 30% 20% );
+		@include transform(rotate(34deg));
+		@include box-shadow(
+			inset 0 5px 5px 0 rgba(#FFFFFF, 0.3),
+			inset 2px -5px 12px 0px rgba(#000000, 0.5)
+		);
+		
+		&:before {
+			top: -12px;
+			left: 14px;
+			width: 26px;
+			height: 60px;
+			border: 2px solid #000000;
+			border-color: transparent transparent transparent #000000;
+			@include border-radius( 80% 0 0 16% );
+			@include transform(rotate(42deg));
+		}
+	}
+	
+	.hair {
+		top: -48px;
+		left: 20%;
+		height: 50px;
+		width: 14px;
+		background: #0F1110;
+		@include transform(rotate(-28deg) skew(10deg, -50deg));
+		@include border-radius(0 0 40% 40% / 0 0 100% 100%);
+		
+		&:before {
+			top: 3px;
+			left: 10%;
+			height: 10px;
+			width: 80%;
+			background: #FFC000;
+		}
+	}
+}
+  </style>
+</head>
+<body>
+<img class="title" src="https://fontmeme.com/permalink/220704/a2adce4458c8b450020161d837454485.png" alt="Angry Birds Font">
+.container
+	.birds-container
+		.red
+			.tail
+			.head
+			.eye.left
+				.pupil
+				.eyebrow
+			.mouth
+			.eye.right
+				.pupil
+				.eyebrow
+			.hair
+		.minion
+			.ear.left
+			.ear.right
+			.eye.left
+			.eye.right
+			.nose
+		.black
+			.hair
+			.head
+			.eye.left
+				.pupil
+				.eyebrow
+			.eye.right
+				.pupil
+				.eyebrow
+			.mouth
+					
+</body>
+</html>
